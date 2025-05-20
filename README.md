@@ -1,6 +1,6 @@
 This repository includes three Python-based SAT solvers for CNF formulas: DPLL, DP, and Resolution.
 
-The **DPLL** solver implements unit propagation and pure literal elimination, and uses a splitting heuristic based on the frequency of literal occurrence to choose which variable to branch on. This improves performance by targeting the most "influential" literals first.
+The **DPLL** algorithm automatically assigns values to variables in unit clauses and simplifies the formula by assigning values to pure literals that appear with only one polarity. For branching, it selects the first literal found in the first clause.
 
 The **DP** (Davis–Putnam) algorithm eliminates variables through resolution. For each variable, it generates all possible resolvents between clauses containing the literal and its negation, simplifying the formula until it's solved or a contradiction is found.
 
