@@ -1,4 +1,4 @@
-This repository includes three Python-based SAT solvers for CNF formulas: DPLL, DP, and Resolution.
+# SAT Solvers: DPLL, DP and Resolution
 
 The **DPLL** algorithm automatically assigns values to variables in unit clauses and simplifies the formula by assigning values to pure literals that appear with only one polarity. For branching, it selects the first literal found in the first clause.
 
