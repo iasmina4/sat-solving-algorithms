@@ -1,6 +1,17 @@
 import time
 import tracemalloc
+import random
 
+def generate_random_cnf(num_vars, num_clauses, clause_len=3):
+    cnf = []
+    for _ in range(num_clauses):
+        clause = set()
+        while len(clause) < clause_len:
+            var = random.randint(1, num_vars)
+            lit = var if random.random() < 0.5 else -var
+            clause.add(lit)
+        cnf.append(list(clause))
+    return cnf
 def resolution(clauses):
     clauses = [frozenset(clause) for clause in clauses] # Convert each clause to a frozenset so they are hashable and can be used in sets
     new_clauses = set(clauses)
@@ -72,17 +83,19 @@ cnf = [
     [-5, 6],
     [6],
     [1]
-]
-'''
+]'''
+
+cnf_formula = generate_random_cnf(3, 10)
 #----------computation time and memory consumption-------------------
 tracemalloc.start()
 start_time =  time.perf_counter()
-result = resolution(cnf)
+result = resolution(cnf_formula)
 end_time = time.perf_counter()
 current, peak = tracemalloc.get_traced_memory()
 tracemalloc.stop()
 
 
-print("UNSAT" if not resolution(cnf) else "SAT")
-print(f"Time: {end_time - start_time:.6f} seconds")
+print("UNSAT" if not resolution(cnf_formula) else "SAT")
+print(f"Time: {(end_time - start_time) * 1000:.3f} ms")
 print(f"Memory Usage: {peak / 1024:.2f} KB")
+

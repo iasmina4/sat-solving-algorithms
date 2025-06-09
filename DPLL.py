@@ -1,6 +1,17 @@
 import time
 import tracemalloc
+import random
 
+def generate_random_cnf(num_vars, num_clauses, clause_len=3):
+    cnf = []
+    for _ in range(num_clauses):
+        clause = set()
+        while len(clause) < clause_len:
+            var = random.randint(1, num_vars)
+            lit = var if random.random() < 0.5 else -var
+            clause.add(lit)
+        cnf.append(list(clause))
+    return cnf
 def dpll(clauses, assignment=[]):
     if not clauses: #if no clauses left, formula is satisfied
         return True
@@ -61,8 +72,6 @@ def simplify(clauses, lit):
             #literal not in clause at all => keep the clause as is
             new_clauses.append(clause)
     return new_clauses
-
-# ------------------ CNF Formula --------------------
 '''
 cnf = [
     [1, 2],
@@ -96,16 +105,15 @@ cnf = [
     [1]
 ]
 '''
+cnf_formula = generate_random_cnf(3, 20)
 #----------computation time and memory consumption-------------------
 tracemalloc.start()
 start_time =  time.perf_counter()
-result = dpll(cnf)
+result = dpll(cnf_formula)
 end_time = time.perf_counter()
 current, peak = tracemalloc.get_traced_memory()
 tracemalloc.stop()
 
-print("SAT" if dpll(cnf) else "UNSAT")
-print(f"Time: {end_time - start_time:.6f} seconds")
+print("SAT" if dpll(cnf_formula) else "UNSAT")
+print(f"Time: {(end_time - start_time) * 1000:.3f} ms")
 print(f"Memory Usage: {peak / 1024:.2f} KB")
-
-
